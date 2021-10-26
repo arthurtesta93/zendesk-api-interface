@@ -30,6 +30,7 @@ function Interface(props) {
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
+        style={{ marginBottom: 32 }}
         initialValues={{ remember: false }}
         //            onFinish={onFinish}
         //            onFinishFailed={onFinishFailed}
@@ -78,6 +79,7 @@ function Interface(props) {
             selectedBrand={props.selectedBrand}
             email={props.email}
             password={props.password}
+            setResponse={setResponse}
           />
         ) : null}
 

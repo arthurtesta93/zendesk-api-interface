@@ -6,18 +6,18 @@ const ticketUpdate = async (
   selectedField,
   ticketID,
   selectedBrand,
-  //  email,
-  //  password,
+  email,
+  password,
   id
 ) => {
   const field = selectedField + "_id";
   const response = axios({
-    method: "post",
+    method: "put",
     url:
       NO_CORS_PROXY +
       "https://" +
       selectedBrand +
-      ".zendesk.com/api/v2/tickets" +
+      ".zendesk.com/api/v2/tickets/" +
       ticketID,
     data: {
       ticket: {
@@ -32,6 +32,7 @@ const ticketUpdate = async (
       "Accept-Enconding": "gzib, deflate, br",
     },
   });
+  console.log(response);
   return response;
 };
 

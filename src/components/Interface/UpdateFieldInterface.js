@@ -1,11 +1,11 @@
 import { useState } from "react";
 import * as API from "../../services/Requests";
-import DataDisplay from "./DataDisplay";
+//import DataDisplay from "./DataDisplay";
 import { Form, Input, Button } from "antd";
 
 function UpdateFieldInterface(props) {
   const [id, setID] = useState();
-  const [response, setResponse] = useState({});
+  //const [response, setResponse] = useState({});
 
   const onSubmitRequest = () => {
     API.requestReducer(
@@ -16,7 +16,7 @@ function UpdateFieldInterface(props) {
       props.email,
       props.password,
       id
-    ).then((res) => setResponse(res.data));
+    ).then((res) => props.setResponse(res.data));
   };
 
   return (
@@ -50,7 +50,7 @@ function UpdateFieldInterface(props) {
         </Button>
       </>
 
-      <DataDisplay data={response} />
+      {/* <DataDisplay data={response} /> */}
     </>
   );
 }
