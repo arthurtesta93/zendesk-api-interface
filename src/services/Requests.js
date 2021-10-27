@@ -1,4 +1,5 @@
 import axios from "axios";
+import { notification } from "antd";
 
 const NO_CORS_PROXY = "https://infinite-tor-10314.herokuapp.com/";
 
@@ -60,6 +61,7 @@ const ticketInformation = async (
   ticketID,
   selectedBrand /*email*/ /*password*/
 ) => {
+
   const response = await axios({
     method: "get",
     url:

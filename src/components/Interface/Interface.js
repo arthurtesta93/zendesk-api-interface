@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Input, Select, Button } from "antd";
+import { Form, Input, Select, Button, Popover, notification } from "antd";
 import * as API from "../../services/Requests";
 
 import UpdateFieldInterface from "./UpdateFieldInterface";
@@ -9,9 +9,16 @@ const { Option } = Select;
 function Interface(props) {
   const [selectedField, setSelectedField] = useState("");
   const [ticketID, setTicketID] = useState();
-  const [response, setResponse] = useState({});
+  const [response, setResponse] = useState();
 
   const onSubmitRequest = () => {
+    if (props.selectedInterface != "delete" && String(ticketID).includes(",")) {
+      notification.info({
+        message: "Warning",
+        description: "Bulk operation unavailable for this request",
+      });
+      return;
+    }
     API.requestReducer(
       selectedField,
       ticketID,
@@ -25,27 +32,40 @@ function Interface(props) {
 
   return (
     <>
-      {console.log(response)}
+      {console.log(ticketID)}
       <Form
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ marginBottom: 32 }}
         initialValues={{ remember: false }}
-        //            onFinish={onFinish}
-        //            onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Form.Item
-          style={{ marginRight: 40 }}
-          label="Ticket ID"
-          value={ticketID}
-          name="number"
-          rules={[{ required: true, message: "Please input the ticket ID" }]}
+        <Popover
+          content={
+            "For bulk operations, separate input with a comma (e.g.: 1234,5678)"
+          }
         >
-          <Input onChange={(e) => setTicketID(e.target.value)} />
-        </Form.Item>
-
+          <Form.Item
+            style={{ marginRight: 40 }}
+            label="Ticket ID"
+            value={ticketID}
+            name="number"
+            rules={[{ required: true, message: "Please input the ticket ID" }]}
+          >
+            <Input
+              onChange={(e) =>
+                /\s/g.test(e.target.value)
+                  ? notification.info({
+                      message: "Warning",
+                      description:
+                        "Please remove all blank spaces from the input field",
+                    })
+                  : setTicketID(e.target.value)
+              }
+            />
+          </Form.Item>
+        </Popover>
         {props.selectedInterface === "update" ? (
           <Form.Item
             label="Field:"
@@ -95,7 +115,8 @@ function Interface(props) {
           </Button>
         ) : null}
       </Form>
-      <DataDisplay data={response} />
+
+      {response ? <DataDisplay data={response} /> : null}
     </>
   );
 }

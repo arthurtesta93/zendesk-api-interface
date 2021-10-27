@@ -6,7 +6,14 @@ export default function DataDisplay(props) {
       <Descriptions.Item label="Title">
         {props.data.ticket.subject}
       </Descriptions.Item>
-      <Descriptions.Item label="Status">
+      <Descriptions.Item
+        label="Status"
+        contentStyle={
+          props.data.ticket.status === "closed"
+            ? { backgroundColor: "lightgreen" }
+            : { backgroundColor: "lightpink" }
+        }
+      >
         {props.data.ticket.status}
       </Descriptions.Item>
       <Descriptions.Item label="Ticket ID">
